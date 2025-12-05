@@ -1,5 +1,4 @@
 const ImageKit = require("imagekit");
-const uuid = require("uuid");
 
 require("dotenv").config();
 
@@ -12,7 +11,7 @@ const imageKit = new ImageKit({
 const uploadFile = async (file) => {
   return imageKit.upload({
     file: file.buffer,
-    fileName: uuid.v4() + "-" + file.originalname,
+    fileName: file.originalname,
     folder: "/socialMediaProjectImages",
   });
 };
