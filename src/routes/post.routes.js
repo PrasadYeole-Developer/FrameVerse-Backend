@@ -2,7 +2,10 @@ const express = require("express");
 const { postsControllers } = require("../controllers/post.controllers");
 const authMiddleware = require("../middlewares/auth.middleware");
 const router = express.Router();
+const multer = require("multer");
 
-router.post("/", authMiddleware, postsControllers);
+const upload = multer({ storage: multer.memoryStorage() });
+
+router.post("/", authMiddleware, upload.single("image"), postsControllers);
 
 module.exports = router;
