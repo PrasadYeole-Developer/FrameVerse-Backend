@@ -1,4 +1,5 @@
 const ImageKit = require("imagekit");
+const uuid = require("uuid");
 
 require("dotenv").config();
 
@@ -9,11 +10,12 @@ const imageKit = new ImageKit({
 });
 
 const uploadFile = async (file) => {
-  return imageKit.upload({
+  const response = await imageKit.upload({
     file: file.buffer,
-    fileName: file.originalname,
+    fileName: file.originalname + "_" + uuid.v4(),
     folder: "/socialMediaProjectImages",
   });
+  return response;
 };
 
 module.exports = uploadFile;
