@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("FrameVerse Backend is running");
 });
 app.use("/auth", authRoutes);
