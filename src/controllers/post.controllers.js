@@ -25,4 +25,23 @@ const postsController = async (req, res) => {
   }
 };
 
-module.exports = { postsController };
+const getPostsController = async (req, res) => {
+  try {
+    const posts = await Post.find({
+      user: req.user._id,
+    });
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for this user" });
+    }
+    return res.status(200).json({
+      message: "Posts fetched successfully",
+      posts: posts,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching posts", error: err.message });
+  }
+};
+
+module.exports = { postsController, getPostsController };
