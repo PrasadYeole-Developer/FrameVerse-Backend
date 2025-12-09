@@ -27,7 +27,11 @@ const registerController = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
     const userData = {
       id: user._id,
       username: user.username,
@@ -67,7 +71,11 @@ const loginController = async (req, res) => {
       });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
     return res.status(200).json({
       message: "User logged in successfully",
       user: {
@@ -94,7 +102,7 @@ const userController = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({
       _id: decoded.id,
-    });
+    }).select("-__v");
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -111,4 +119,21 @@ const userController = async (req, res) => {
   }
 };
 
-module.exports = { registerController, loginController, userController };
+const logoutController = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
+
+  return res.status(200).json({
+    message: "User logged out successfully",
+  });
+};
+
+module.exports = {
+  registerController,
+  loginController,
+  userController,
+  logoutController,
+};

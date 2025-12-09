@@ -6,7 +6,6 @@ const {
 const authMiddleware = require("../middlewares/auth.middleware");
 const router = express.Router();
 const multer = require("multer");
-const { get } = require("mongoose");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
