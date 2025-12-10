@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://frameverse-eta.vercel.app/",
+    origin: "https://frameverse-eta.vercel.app",
     credentials: true,
   })
 );
