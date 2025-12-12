@@ -57,7 +57,7 @@ const loginController = async (req, res) => {
       });
     }
     const user = await User.findOne({
-      username: username,
+      username: username.trim(),
     }).select("+password");
     if (!user) {
       return res.status(404).json({
